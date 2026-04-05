@@ -171,8 +171,8 @@ export default function ReviewForm({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-4">
-      <h3 className="font-semibold text-gray-900 mb-3">Write a Review</h3>
+    <div className="bg-gradient-to-br from-teal-50 to-blue-50 border border-teal-200 p-5">
+      <h3 className="font-semibold text-gray-900 text-lg mb-4">Share Your Experience</h3>
 
       <div className="mb-3">
         <label className="text-sm text-gray-600 mb-1 block">Your Rating</label>
@@ -183,7 +183,8 @@ export default function ReviewForm({
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Share your experience..."
-        className="w-full border border-gray-200 rounded-xl p-3 text-sm resize-none h-24 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+        className="w-full border border-teal-200 bg-white/80 p-4 text-base resize-none h-28 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent shadow-sm"
+        style={{ fontSize: '16px' }}
       />
 
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
@@ -197,7 +198,7 @@ export default function ReviewForm({
       <button
         onClick={handleOpenWidget}
         disabled={loading}
-        className="mt-3 w-full bg-green-600 text-white rounded-xl py-2.5 text-sm font-medium flex items-center justify-center gap-2 hover:bg-green-700 transition-colors disabled:opacity-50"
+        className="mt-3 w-full bg-teal-600 text-white py-3 text-base font-medium flex items-center justify-center gap-2 hover:bg-teal-700 transition-colors disabled:opacity-50 shadow-md"
       >
         {loading ? (
           <Loader2 className="w-4 h-4 animate-spin" />

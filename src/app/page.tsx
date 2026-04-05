@@ -58,44 +58,44 @@ export default function Home() {
     return () => clearTimeout(timeoutId);
   }, [selectedCategory, searchTerm]);
 
+  // Get featured businesses (top 4 highest rated)
+  const featuredBusinesses = businesses
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 4);
+
+  const otherBusinesses = businesses
+    .filter(b => !featuredBusinesses.includes(b))
+    .sort((a, b) => b.rating - a.rating);
+
   return (
-    <div className="pb-4">
-      {/* Header */}
-      <div className="p-4 text-center py-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Discover Local Businesses
-        </h1>
-        <p className="text-gray-600 text-sm">
-          Authentic reviews from verified humans
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-teal-50 via-blue-50 to-purple-50">
+      {/* Search Section */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-md mx-auto px-4 py-6">
+          {/* Search Bar */}
+          <div className="relative mb-4">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search businesses, stores, or services"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 bg-white border border-gray-300 rounded-2xl text-base placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent shadow-sm"
+              style={{ fontSize: '16px' }}
+            />
+            <Filter className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          </div>
 
-      {/* Search and Filter */}
-      <div className="px-4 mb-6 space-y-4">
-        {/* Search Bar */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <input
-            type="text"
-            placeholder="Search businesses..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
-          />
-        </div>
-
-        {/* Category Filter */}
-        <div className="flex items-center gap-3">
-          <Filter className="text-gray-400 w-4 h-4 flex-shrink-0" />
-          <div className="flex gap-2 overflow-x-auto pb-2">
+          {/* Category Pills */}
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {categoryOptions.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-colors ${
+                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                   selectedCategory === category
-                    ? "bg-green-600 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    ? "bg-teal-600 text-white shadow-md"
+                    : "bg-white text-gray-600 border border-gray-300 hover:bg-gray-50"
                 }`}
               >
                 {category}
@@ -105,25 +105,75 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Results */}
-      <div className="px-4">
+      {/* Content */}
+      <div className="max-w-md mx-auto px-4 py-6">
         {loading ? (
-          <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto"></div>
-            <p className="text-gray-500 mt-2 text-sm">Loading businesses...</p>
+          <div className="space-y-4">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl border border-gray-200 p-4 animate-pulse">
+                <div className="flex items-start gap-3">
+                  <div className="w-12 h-12 bg-gray-200 rounded-xl"></div>
+                  <div className="flex-1">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2 mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : businesses.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-gray-500 mb-2">No businesses found</p>
-            <p className="text-gray-400 text-sm">
-              Try adjusting your search or filter criteria
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Search className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No businesses found</h3>
+            <p className="text-gray-500 text-sm mb-4">
+              Try another category or search term
             </p>
+            <button
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedCategory("All");
+              }}
+              className="px-4 py-2 bg-teal-600 text-white rounded-xl text-sm font-medium hover:bg-teal-700 transition-colors"
+            >
+              Clear filters
+            </button>
           </div>
         ) : (
-          <div className="space-y-3">
-            {businesses.map((business) => (
-              <BusinessCard key={business.id} business={business} />
-            ))}
+          <div className="space-y-6">
+            {/* Featured Section */}
+            {featuredBusinesses.length > 0 && selectedCategory === "All" && !searchTerm && (
+              <div>
+                <div className="flex items-center gap-2 mb-4">
+                  <h2 className="text-lg font-semibold text-gray-900">Featured local businesses</h2>
+                  <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+                </div>
+                <div className="space-y-4">
+                  {featuredBusinesses.map((business) => (
+                    <BusinessCard key={business.id} business={business} featured={true} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* All Businesses */}
+            <div>
+              {(selectedCategory !== "All" || searchTerm || featuredBusinesses.length === 0) && (
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                  {searchTerm ? `Search results` : selectedCategory === "All" ? "All businesses" : selectedCategory}
+                </h2>
+              )}
+              <div className="space-y-4">
+                {(selectedCategory === "All" && !searchTerm && featuredBusinesses.length > 0
+                  ? otherBusinesses
+                  : businesses
+                ).map((business) => (
+                  <BusinessCard key={business.id} business={business} />
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>
