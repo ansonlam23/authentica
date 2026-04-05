@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Place {
+  id          Int      @id @default(autoincrement())
+  name        String
+  category    String
+  description String
+  imageUrl    String
+  rating      Float    @default(0)
+  createdAt   DateTime @default(now())
+  reviews     Review[]
+}
+
+model Review {
+  id            Int      @id @default(autoincrement())
+  placeId       Int
+  rating        Int
+  text          String
+  nullifierHash String
+  createdAt     DateTime @default(now())
+  place         Place    @relation(fields: [placeId], references: [id])
+
+  @@unique([nullifierHash, placeId])
+}
