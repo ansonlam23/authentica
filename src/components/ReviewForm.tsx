@@ -7,12 +7,12 @@ import StarRating from "./StarRating";
 import { Send, Loader2 } from "lucide-react";
 
 interface ReviewFormProps {
-  placeId: number;
+  businessId: number;
   onReviewSubmitted: () => void;
 }
 
 export default function ReviewForm({
-  placeId,
+  businessId,
   onReviewSubmitted,
 }: ReviewFormProps) {
   const [rating, setRating] = useState(0);
@@ -25,7 +25,7 @@ export default function ReviewForm({
   // Store review data to persist through verification
   const [pendingReview, setPendingReview] = useState<{rating: number, text: string} | null>(null);
 
-  const action = `review-place-${placeId}`;
+  const action = `review-business-${businessId}`;
 
   const handleOpenWidget = async () => {
     if (rating === 0) {
@@ -123,7 +123,7 @@ export default function ReviewForm({
 
     try {
       const reviewData = {
-        placeId,
+        businessId,
         rating: reviewToSubmit.rating,
         text: reviewToSubmit.text,
         nullifierHash: nullifierHash,

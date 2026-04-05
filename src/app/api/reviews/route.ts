@@ -2,42 +2,42 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { placeId, rating, text, nullifierHash } = await request.json();
+  const { businessId, rating, text, nullifierHash } = await request.json();
 
-  if (!placeId || !rating || !text || !nullifierHash) {
+  if (!businessId || !rating || !text || !nullifierHash) {
     return NextResponse.json(
       { error: "Missing required fields" },
       { status: 400 }
     );
   }
 
-  // Check if this human already reviewed this place
+  // Check if this human already reviewed this business
   const existing = await prisma.review.findUnique({
     where: {
-      nullifierHash_placeId: { nullifierHash, placeId },
+      nullifierHash_businessId: { nullifierHash, businessId },
     },
   });
 
   if (existing) {
     return NextResponse.json(
-      { error: "You have already reviewed this place" },
+      { error: "You have already reviewed this business" },
       { status: 409 }
     );
   }
 
   // Create the review
   const review = await prisma.review.create({
-    data: { placeId, rating, text, nullifierHash },
+    data: { businessId, rating, text, nullifierHash },
   });
 
-  // Recalculate average rating for the place
+  // Recalculate average rating for the business
   const aggregation = await prisma.review.aggregate({
-    where: { placeId },
+    where: { businessId },
     _avg: { rating: true },
   });
 
-  await prisma.place.update({
-    where: { id: placeId },
+  await prisma.business.update({
+    where: { id: businessId },
     data: { rating: aggregation._avg.rating || 0 },
   });
 

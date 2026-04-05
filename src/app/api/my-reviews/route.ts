@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
         },
       },
       include: {
-        place: true, // Include place information
+        business: true, // Include business information
       },
       orderBy: {
         createdAt: "desc",

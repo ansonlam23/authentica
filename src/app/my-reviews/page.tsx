@@ -9,11 +9,14 @@ interface Review {
   rating: number;
   text: string;
   createdAt: string;
-  place: {
+  business: {
     id: number;
     name: string;
     category: string;
+    subcategory: string;
     description: string;
+    address: string;
+    neighborhood: string;
   };
 }
 
@@ -78,7 +81,7 @@ export default function MyReviews() {
             className="text-green-600 hover:text-green-700 inline-flex items-center gap-2 mb-3"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Places
+            Back to Businesses
           </Link>
           <h1 className="text-xl font-bold text-gray-900">My Reviews</h1>
         </div>
@@ -158,7 +161,7 @@ export default function MyReviews() {
                   className="bg-white rounded-2xl border border-gray-100 p-4"
                 >
                   <Link
-                    href={`/places/${review.place.id}`}
+                    href={`/businesses/${review.business.id}`}
                     className="block hover:bg-gray-50 transition-colors rounded-xl -m-4 p-4"
                   >
                     <div className="flex items-start gap-3">
@@ -169,10 +172,10 @@ export default function MyReviews() {
                         <div className="flex items-start justify-between mb-2">
                           <div>
                             <h3 className="font-medium text-gray-900 truncate">
-                              {review.place.name}
+                              {review.business.name}
                             </h3>
                             <span className="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-                              {review.place.category}
+                              {review.business.subcategory}
                             </span>
                           </div>
                           <div className="flex items-center gap-1 ml-2">
