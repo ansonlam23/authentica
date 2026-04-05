@@ -22,6 +22,8 @@ export default function ReviewForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  // Store review data to persist through verification
+  const [pendingReview, setPendingReview] = useState<{rating: number, text: string} | null>(null);
 
   const action = `review-place-${placeId}`;
 
@@ -36,6 +38,9 @@ export default function ReviewForm({
     }
     setError("");
     setLoading(true);
+
+    // Store the review data before opening the widget
+    setPendingReview({ rating, text: text.trim() });
 
     try {
       console.log("Fetching signing context for action:", action);
@@ -56,6 +61,7 @@ export default function ReviewForm({
     } catch (error) {
       console.error("Failed to get signing context:", error);
       setError("Failed to initialize verification. Check your app credentials.");
+      setPendingReview(null);
     } finally {
       setLoading(false);
     }
@@ -78,34 +84,79 @@ export default function ReviewForm({
       throw new Error("Verification failed");
     }
     console.log("Verification successful");
+    // Return the result so it can be passed to onSuccess
+    return result;
   };
 
   const onSuccess = async (result: IDKitResult) => {
+    console.log("onSuccess called with result:", result);
+    console.log("Current state - Rating:", rating, "Text:", text);
+    console.log("Pending review data:", pendingReview);
+
+    // Use the stored review data instead of current state
+    const reviewToSubmit = pendingReview || { rating, text: text.trim() };
+
+    // Extract nullifier based on protocol version
+    let nullifierHash: string | undefined;
+
+    if (result.protocol_version === "3.0" && result.responses?.[0]) {
+      // V3 format: nullifier is directly in the response
+      nullifierHash = result.responses[0].nullifier;
+    } else if (result.protocol_version === "4.0" && result.responses?.[0]) {
+      // V4 format: nullifier is in the response
+      nullifierHash = result.responses[0].nullifier;
+    } else if ((result as any).nullifier_hash) {
+      // Legacy format fallback
+      nullifierHash = (result as any).nullifier_hash;
+    }
+
+    if (!nullifierHash) {
+      console.error("No nullifier hash found in result:", result);
+      console.error("Protocol version:", result.protocol_version);
+      console.error("Responses:", result.responses);
+      setError("Verification failed: No nullifier hash received");
+      setPendingReview(null);
+      return;
+    }
+
+    console.log("Extracted nullifier hash:", nullifierHash);
+
     try {
+      const reviewData = {
+        placeId,
+        rating: reviewToSubmit.rating,
+        text: reviewToSubmit.text,
+        nullifierHash: nullifierHash,
+      };
+
+      console.log("Submitting review with data:", reviewData);
+
       const res = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          placeId,
-          rating,
-          text: text.trim(),
-          nullifierHash: result.nullifier_hash,
-        }),
+        body: JSON.stringify(reviewData),
       });
 
+      const responseData = await res.json();
+      console.log("Review submission response:", res.status, responseData);
+
       if (!res.ok) {
-        const data = await res.json();
-        setError(data.error || "Failed to submit review");
+        setError(responseData.error || "Failed to submit review");
+        setPendingReview(null);
         return;
       }
 
+      // Clear form and pending data
       setText("");
       setRating(0);
+      setPendingReview(null);
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
       onReviewSubmitted();
-    } catch {
+    } catch (error) {
+      console.error("Error submitting review:", error);
       setError("Failed to submit review");
+      setPendingReview(null);
     }
   };
 
@@ -152,6 +203,7 @@ export default function ReviewForm({
           onOpenChange={(newOpen) => {
             console.log("Widget open state changed to:", newOpen);
             setOpen(newOpen);
+            // Don't clear pending review here as it might be needed in onSuccess
           }}
           app_id={process.env.NEXT_PUBLIC_APP_ID as `app_${string}`}
           action={action}
