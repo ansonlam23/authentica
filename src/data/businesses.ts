@@ -123,6 +123,216 @@ export const LOCAL_BUSINESSES: Omit<Business, 'id'>[] = [
     imageUrl: "/images/coffee.jpg",
     rating: 4.1
   },
+  {
+    name: "Triple XXX Family Restaurant",
+    category: "Food & Drink",
+    subcategory: "Restaurant",
+    description: "Iconic diner serving all-day breakfast, burgers, and house-made root beer in a historic spot.",
+    address: "2 N Salisbury St",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 4.5
+  },
+  {
+    name: "Wanderlust Coffee Roasters",
+    category: "Food & Drink",
+    subcategory: "Coffee Shop",
+    description: "House-roasted coffee with pastries and breakfast sandwiches in a chill setting.",
+    address: "835 Main St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/coffee.jpg",
+    rating: 4.4
+  },
+  {
+    name: "Jump Start Cafe",
+    category: "Food & Drink",
+    subcategory: "Coffee Shop",
+    description: "Women-owned spot for coffee, tea, and quick breakfast bites.",
+    address: "1020 Union St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/coffee.jpg",
+    rating: 4.2
+  },
+  {
+    name: "Ghost Coffee Roaster",
+    category: "Food & Drink",
+    subcategory: "Coffee Shop",
+    description: "Roastery-focused café with fresh brews and light bites.",
+    address: "750 W Stadium Ave",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/coffee.jpg",
+    rating: 4.3
+  },
+  {
+    name: "The Lobby by Greyhouse",
+    category: "Food & Drink",
+    subcategory: "Coffee Shop",
+    description: "Extension of Greyhouse with coffee, brunch items, and evening cocktails.",
+    address: "526 Main St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/coffee.jpg",
+    rating: 4.3
+  },
+  {
+    name: "The Tap West Lafayette",
+    category: "Food & Drink",
+    subcategory: "Bar",
+    description: "Campus-edge bar with pizzas, wings, and 100+ craft beers on tap.",
+    address: "100 S Chauncey Ave",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/bar.jpg",
+    rating: 4.2
+  },
+  {
+    name: "McDonald's (Stadium Ave)",
+    category: "Food & Drink",
+    subcategory: "Fast Food",
+    description: "Late-night drive-thru spot for burgers, fries, and McCafé coffee.",
+    address: "605 W Stadium Ave",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 3.8
+  },
+  {
+    name: "Digby's Pub and Patio",
+    category: "Food & Drink",
+    subcategory: "Bar",
+    description: "Tavern with burgers, cocktails, and a popular outdoor patio.",
+    address: "133 N 4th St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/bar.jpg",
+    rating: 4.1
+  },
+  {
+    name: "McDonald's (E State St)",
+    category: "Food & Drink",
+    subcategory: "Fast Food",
+    description: "Central campus McDonald's for quick burgers and late-night service.",
+    address: "124 E State St",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 3.7
+  },
+  {
+    name: "Another Broken Egg Cafe",
+    category: "Food & Drink",
+    subcategory: "Restaurant",
+    description: "Brunch chain with egg dishes, pancakes, and mimosas all day.",
+    address: "516 Northwestern Ave #1500",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 4.3
+  },
+  {
+    name: "6th Street Dive",
+    category: "Food & Drink",
+    subcategory: "Bar",
+    description: "Dive bar with Tex-Mex tacos, craft beer, and board games.",
+    address: "827 N 6th St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/bar.jpg",
+    rating: 4.0
+  },
+  {
+    name: "Raising Cane's Chicken Fingers",
+    category: "Food & Drink",
+    subcategory: "Fast Food",
+    description: "Chicken finger specialists with crinkle fries and Cane's sauce.",
+    address: "100 S Chauncey Ave Ste 100",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 4.4
+  },
+  {
+    name: "East End Grill",
+    category: "Food & Drink",
+    subcategory: "Restaurant",
+    description: "New American grill with steaks, seafood, and craft whiskey selection.",
+    address: "1016 Main St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 4.2
+  },
+  {
+    name: "Potbelly",
+    category: "Food & Drink",
+    subcategory: "Restaurant",
+    description: "Toasted sandwich shop with salads, shakes, and quick service.",
+    address: "117 Northwestern Ave Ste A",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 4.1
+  },
+  {
+    name: "Bistro 501",
+    category: "Food & Drink",
+    subcategory: "Restaurant",
+    description: "French-inspired bistro with seasonal plates and a romantic ambiance.",
+    address: "501 Main St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 4.4
+  },
+  {
+    name: "The Spot Tavern",
+    category: "Food & Drink",
+    subcategory: "Bar",
+    description: "Neighborhood tavern with pizzas, cheap drinks, and a firepit patio.",
+    address: "409 S 4th St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/bar.jpg",
+    rating: 3.9
+  },
+  {
+    name: "Chick-fil-A",
+    category: "Food & Drink",
+    subcategory: "Fast Food",
+    description: "Chicken sandwiches, nuggets, and waffle fries with friendly service.",
+    address: "401 N Russell St",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 4.5
+  },
+  {
+    name: "Boilerhouse Prime",
+    category: "Food & Drink",
+    subcategory: "Restaurant",
+    description: "High-end steakhouse and seafood spot for special occasions.",
+    address: "1295 Cherry Ln",
+    neighborhood: "West Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 4.6
+  },
+  {
+    name: "Capo Wine Bar",
+    category: "Food & Drink",
+    subcategory: "Bar",
+    description: "Wine bar with charcuterie boards and small plates.",
+    address: "210 Main St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/bar.jpg",
+    rating: 4.3
+  },
+  {
+    name: "Budge's Drive In",
+    category: "Food & Drink",
+    subcategory: "Ice Cream",
+    description: "Retro drive-in for tenderloins, chili dogs, and soft-serve treats.",
+    address: "1102 N 14th St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/restaurant.jpg",
+    rating: 4.2
+  },
+  {
+    name: "Ritual",
+    category: "Food & Drink",
+    subcategory: "Bar",
+    description: "Swanky cocktail lounge with flatbreads and craft drinks.",
+    address: "211 N 2nd St",
+    neighborhood: "Lafayette",
+    imageUrl: "/images/bar.jpg",
+    rating: 4.4
+  },
 
   // Retail
   {

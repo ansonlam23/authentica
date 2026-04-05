@@ -58,10 +58,19 @@ export default function Home() {
     return () => clearTimeout(timeoutId);
   }, [selectedCategory, searchTerm]);
 
-  // Get featured businesses (top 4 highest rated)
-  const featuredBusinesses = businesses
+  // Get featured businesses (top 3 highest rated + 1 food business, excluding hospitals)
+  const topBusinesses = businesses
+    .filter(b => !b.name.toLowerCase().includes('hospital'))
     .sort((a, b) => b.rating - a.rating)
-    .slice(0, 4);
+    .slice(0, 3);
+
+  const topFoodBusiness = businesses
+    .filter(b => b.category === "Food & Drink" && !topBusinesses.includes(b) && !b.name.toLowerCase().includes('hospital'))
+    .sort((a, b) => b.rating - a.rating)[0];
+
+  const featuredBusinesses = topFoodBusiness
+    ? [...topBusinesses, topFoodBusiness]
+    : businesses.filter(b => !b.name.toLowerCase().includes('hospital')).sort((a, b) => b.rating - a.rating).slice(0, 4);
 
   const otherBusinesses = businesses
     .filter(b => !featuredBusinesses.includes(b))
