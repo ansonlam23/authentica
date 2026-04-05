@@ -38,6 +38,7 @@ export default function ReviewForm({
     setLoading(true);
 
     try {
+      console.log("Fetching signing context for action:", action);
       const res = await fetch("/api/sign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -49,9 +50,11 @@ export default function ReviewForm({
       }
 
       const data = await res.json();
+      console.log("Received rpContext:", data.rpContext);
       setRpContext(data.rpContext);
       setOpen(true);
-    } catch {
+    } catch (error) {
+      console.error("Failed to get signing context:", error);
       setError("Failed to initialize verification. Check your app credentials.");
     } finally {
       setLoading(false);
@@ -59,15 +62,22 @@ export default function ReviewForm({
   };
 
   const handleVerify = async (result: IDKitResult) => {
+    console.log("handleVerify called with result:", result);
     const res = await fetch("/api/verify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(result),
+      body: JSON.stringify({
+        ...result,
+        action,
+      }),
     });
 
     if (!res.ok) {
+      const errorData = await res.json();
+      console.error("Verification failed:", errorData);
       throw new Error("Verification failed");
     }
+    console.log("Verification successful");
   };
 
   const onSuccess = async (result: IDKitResult) => {
@@ -139,7 +149,10 @@ export default function ReviewForm({
       {rpContext && (
         <IDKitRequestWidget
           open={open}
-          onOpenChange={setOpen}
+          onOpenChange={(newOpen) => {
+            console.log("Widget open state changed to:", newOpen);
+            setOpen(newOpen);
+          }}
           app_id={process.env.NEXT_PUBLIC_APP_ID as `app_${string}`}
           action={action}
           rp_context={rpContext}
@@ -147,9 +160,14 @@ export default function ReviewForm({
           preset={orbLegacy()}
           handleVerify={handleVerify}
           onSuccess={onSuccess}
-          onError={(errorCode) =>
-            setError(`Verification error: ${errorCode}`)
-          }
+          onError={(errorCode) => {
+            console.error("Verification error details:");
+            console.error("- Error code:", errorCode);
+            console.error("- App ID:", process.env.NEXT_PUBLIC_APP_ID);
+            console.error("- Action:", action);
+            console.error("- RP Context:", rpContext);
+            setError(`Verification error: ${errorCode}`);
+          }}
         />
       )}
     </div>

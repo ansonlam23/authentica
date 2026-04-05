@@ -15,7 +15,7 @@ interface PlaceCardProps {
 
 export default function PlaceCard({ place }: PlaceCardProps) {
   const { id, name, category, description, rating, reviews } = place;
-  const reviewCount = reviews.length;
+  const reviewCount = reviews?.length || 0;
   return (
     <Link href={`/places/${id}`}>
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
