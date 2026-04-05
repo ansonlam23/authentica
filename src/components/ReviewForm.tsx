@@ -146,6 +146,15 @@ export default function ReviewForm({
         return;
       }
 
+      // Store nullifier hash for My Reviews page
+      if (typeof window !== "undefined") {
+        const existingNullifiers = JSON.parse(localStorage.getItem("userNullifiers") || "[]");
+        if (!existingNullifiers.includes(nullifierHash)) {
+          existingNullifiers.push(nullifierHash);
+          localStorage.setItem("userNullifiers", JSON.stringify(existingNullifiers));
+        }
+      }
+
       // Clear form and pending data
       setText("");
       setRating(0);
