@@ -159,6 +159,7 @@ export default function ReviewForm({
       setText("");
       setRating(0);
       setPendingReview(null);
+      setError(""); // Clear any previous errors
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
       onReviewSubmitted();

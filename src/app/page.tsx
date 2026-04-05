@@ -121,9 +121,6 @@ export default function Home() {
           </div>
         ) : (
           <div className="space-y-3">
-            <p className="text-sm text-gray-600 mb-4">
-              {businesses.length} business{businesses.length !== 1 ? "es" : ""} found
-            </p>
             {businesses.map((business) => (
               <BusinessCard key={business.id} business={business} />
             ))}
