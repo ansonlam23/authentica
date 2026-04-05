@@ -118,27 +118,31 @@ export default async function BusinessDetails({ params }: PageProps) {
             {/* Top Row - Category Icon + Business Info + Review Count */}
             <div className="flex items-start gap-3 mb-4">
               {/* Category Icon */}
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 ${getCategoryColor(business.category)}`}>
+              <div className={`w-12 h-12 flex items-center justify-center flex-shrink-0 ${getCategoryColor(business.category)}`}>
                 {(() => {
                   const IconComponent = getCategoryIcon(business.category);
-                  return <IconComponent className="w-8 h-8" />;
+                  return <IconComponent className="w-6 h-6" />;
                 })()}
               </div>
 
               {/* Main Content */}
               <div className="flex-1 min-w-0">
-                <span className={`text-xs font-medium px-2 py-1 rounded-full ${getCategoryColor(business.category)}`}>
-                  {business.subcategory}
-                </span>
-                <h1 className="text-xl font-bold text-gray-900 mt-2 mb-1">
+                {/* Business Name */}
+                <h1 className="font-bold text-gray-900 text-xl leading-tight mb-1">
                   {business.name}
                 </h1>
-                <div className="flex items-center gap-1 text-sm text-gray-600 mb-2">
+
+                {/* Metadata Row - matching dashboard style */}
+                <div className="flex items-center text-sm text-gray-600 mb-2 flex-wrap">
                   <span className="font-medium">{business.category}</span>
-                  <span className="text-gray-400">•</span>
+                  <span className="text-gray-400 mx-1 flex items-center">•</span>
+                  <span>{business.subcategory}</span>
+                  <span className="text-gray-400 mx-1 flex items-center">•</span>
                   <span>{business.neighborhood}</span>
                 </div>
-                <div className="flex items-center gap-1 text-sm text-gray-500 mb-3">
+
+                {/* Address */}
+                <div className="flex items-center gap-1 text-sm text-gray-500">
                   <MapPin className="w-3 h-3 flex-shrink-0" />
                   <span className="truncate">{business.address}</span>
                 </div>
@@ -149,20 +153,14 @@ export default async function BusinessDetails({ params }: PageProps) {
                 <div className="text-xs text-gray-500">{business.reviews.length} reviews</div>
                 <div className="flex items-center gap-0.5 mt-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                    <Star key={i} className="w-3 h-3 text-yellow-400 fill-current" />
                   ))}
                 </div>
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-gray-600 text-sm mb-4">{business.description}</p>
-
-            {/* Trust Badge */}
-            <div className="flex items-center justify-center gap-1 pt-3 border-t border-gray-100">
-              <Shield className="w-3 h-3 text-green-600" />
-              <span className="text-xs text-green-700 font-medium">Human-verified reviews</span>
-            </div>
+            <p className="text-gray-600 text-sm">{business.description}</p>
           </div>
         </div>
 

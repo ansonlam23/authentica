@@ -11,21 +11,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Check if this human already reviewed this business
-  const existing = await prisma.review.findUnique({
-    where: {
-      nullifierHash_businessId: { nullifierHash, businessId },
-    },
-  });
-
-  if (existing) {
-    return NextResponse.json(
-      { error: "You have already reviewed this business" },
-      { status: 409 }
-    );
-  }
-
-  // Create the review
+  // Create the review (allowing multiple reviews from the same user)
   const review = await prisma.review.create({
     data: { businessId, rating, text, nullifierHash },
   });

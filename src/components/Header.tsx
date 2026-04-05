@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-teal-600 shadow-lg">
       <div className="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center group">
+        <Link href="/browse" className="flex items-center group">
           <style jsx>{`
             @keyframes shimmer {
               0% {

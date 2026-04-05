@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { usePathname } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MiniKitProviderWrapper from "@/components/MiniKitProvider";
@@ -14,21 +16,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Authentica",
-  description: "Verified human reviews for local places - powered by World ID",
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
-};
+// Removed metadata export since we're now using client component
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isLandingPage = pathname === "/";
+
   return (
     <html
       lang="en"
@@ -36,8 +33,8 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-gray-50">
         <MiniKitProviderWrapper>
-          <div className="max-w-md mx-auto min-h-full bg-white">
-            <Header />
+          <div className={isLandingPage ? "min-h-full" : "max-w-md mx-auto min-h-full bg-white"}>
+            {!isLandingPage && <Header />}
             <main className="flex-1">
               {children}
             </main>
